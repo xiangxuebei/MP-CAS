@@ -1,0 +1,73 @@
+seed: 42
+
+model:
+  norm: labn
+  use_se: true
+  aux_dim: 0
+  aux_embed_dim: 32
+  guidance_dim: 128
+  dropout: 0.1
+
+data:
+  batch_size: 256
+  num_workers: 0
+  annotation_mode: auto
+  label_path: data/gaze/Labels.tar.gz
+  device_type_filter: null
+  crop_cache_dir: null
+  crop_cache_required: false
+  crop_cache_decode_on_gpu: true
+  frame_cache_dir: null
+  frame_cache_required: false
+  persistent_workers: true
+  prefetch_factor: 2
+  block_shuffle_size: 0
+  block_shuffle_within_block: true
+  train:
+    path: data/gaze/Dataset
+    split: train
+    augment: true
+    brightness: 0.08
+    contrast: 0.08
+  val:
+    path: data/gaze/Dataset
+    split: val
+    augment: false
+  test:
+    path: data/gaze/Dataset
+    split: test
+    augment: false
+
+train:
+  save_dir: outputs/mpcas_gaze/train
+  epochs: 16
+  loss: smooth_l1
+  loss_scale: 4.0
+  smooth_l1_beta: 1.0
+  amp: true
+  clip_grad: 5.0
+  log_interval: 50
+
+optimizer:
+  lr: 0.0005
+  weight_decay: 0.0005
+  milestones: [10, 14]
+  gamma: 0.1
+
+test:
+  save_dir: outputs/mpcas_gaze/test
+
+calibration:
+  mode: none
+  points: 0
+  strategy: first_unique
+  exclude_support_from_metrics: true
+
+filter:
+  mode: none
+  freq: 30.0
+  min_cutoff: 1.0
+  beta: 0.007
+  d_cutoff: 1.0
+  look_ahead: 2
+  threshold: 1.5

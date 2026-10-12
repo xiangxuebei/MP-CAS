@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mpcas-models"
+version = "0.1.0"
+description = "MP-CAS multimodal feature extraction and leakage-controlled model experiments"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy==1.26.4",
+  "pandas==2.2.2",
+  "scikit-learn==1.7.2",
+  "xgboost==3.1.3",
+  "Boruta==0.4.3",
+  "joblib==1.5.3",
+  "openpyxl==3.1.5",
+]
+
+[project.optional-dependencies]
+face = [
+  "scipy==1.13.0",
+  "opencv-contrib-python==4.9.0.80",
+  "py-feat==2.1.5",
+]
+gaze = [
+  "torch",
+  "torchvision",
+  "Pillow",
+  "PyYAML",
+  "opencv-contrib-python==4.9.0.80",
+  "lmdb",
+]
+audio = [
+  "scipy==1.13.0",
+  "librosa==0.11.0",
+  "soundfile",
+  "jieba",
+  "textrank4zh==0.3",
+  "zhconv==1.4.3",
+  "torch",
+  "torchaudio",
+  "dataoceanai-dolphin==20260513",
+  "imageio-ffmpeg",
+]
+
+[project.scripts]
+mpcas = "mpcas.cli:main"
+mpcas-facial = "mpcas_facial.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
